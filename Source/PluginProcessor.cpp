@@ -93,8 +93,7 @@ void XylophoneModelAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void XylophoneModelAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    bar = std::make_unique<idealBar>(0.293, 0.037, 0.019, sampleRate, (9.54 * pow(10, 9)), 796, 0.7, 0.005);
 }
 
 void XylophoneModelAudioProcessor::releaseResources()
@@ -129,31 +128,27 @@ bool XylophoneModelAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 
 void XylophoneModelAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
+    //juce::ScopedNoDenormals noDenormals;
+    auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+        buffer.clear(i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    float* outputL = buffer.getWritePointer(0);
+    float* outputR = buffer.getWritePointer(1);
 
-        // ..do something to the data...
+    float output = 0.0;
+
+    for (int i = 0; i < buffer.getNumSamples(); ++i) {
+        output = bar->getSchemeOutput(6);
+        bar->updateOperation();
+        bar->stateChange();
+        output = limit(output);
+        outputL[i] = output;
+        outputR[i] = outputL[i];
     }
+    
 }
 
 //==============================================================================
@@ -186,4 +181,13 @@ void XylophoneModelAudioProcessor::setStateInformation (const void* data, int si
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new XylophoneModelAudioProcessor();
+}
+
+float XylophoneModelAudioProcessor::limit(float input){
+    if (input>1)
+        return 1;
+    else if (input<-1)
+        return -1;
+    else
+        return input;
 }

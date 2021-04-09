@@ -26,7 +26,7 @@ public:
     void resized() override;
     
     void setRingLayout(double radius, float Xcentre, float Ycentre, int numButtons, int keyWidth, int keyHeight);
-    int activeButtons = 25;
+    int activeButtons = 10;
     float radius = 200;
     float centreX = 400;
     float centreY = 300;

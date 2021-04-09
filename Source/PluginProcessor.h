@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "IdealBar.h"
 
 //==============================================================================
 /**
@@ -53,10 +54,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    inline void handleButtonPress(int keyIndex){
-        int a=1;
+    float limit(float input);
+
+    inline void handleButtonPress(int keyIndex) {
+       // int a = 1;
+        bar->strike(4);
     }
-    
+    std::unique_ptr<idealBar> bar;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (XylophoneModelAudioProcessor)

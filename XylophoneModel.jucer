@@ -11,6 +11,8 @@
       <FILE id="EGnFeN" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="OuOmCr" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="AsXFvF" name="IdealBar.cpp" compile="1" resource="0" file="Source/IdealBar.cpp"/>
+      <FILE id="PI34RU" name="IdealBar.h" compile="0" resource="0" file="Source/IdealBar.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

@@ -81,6 +81,10 @@
 			isa = PBXBuildFile;
 			fileRef = 9DA7E4D07D13E1C22EC300DD;
 		};
+		DD01334810BAE40F41102264 = {
+			isa = PBXBuildFile;
+			fileRef = C41A311C6E5455EC37E3F6E1;
+		};
 		8EBB696FC06AACA0AF147CC6 = {
 			isa = PBXBuildFile;
 			fileRef = 005E19C7B52A6B103ADB9EBE;
@@ -461,6 +465,13 @@
 			path = "~/JUCE/modules/juce_audio_plugin_client";
 			sourceTree = "<absolute>";
 		};
+		B817FFF4AFBB5BC8E9092937 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = IdealBar.h;
+			path = ../../Source/IdealBar.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		BAC71D9B62AEAD51369B9E8C = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -474,6 +485,13 @@
 			name = "juce_core";
 			path = "~/JUCE/modules/juce_core";
 			sourceTree = "<absolute>";
+		};
+		C41A311C6E5455EC37E3F6E1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = IdealBar.cpp;
+			path = ../../Source/IdealBar.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		CAC59CD7BF8A2819341665D2 = {
 			isa = PBXFileReference;
@@ -552,6 +570,8 @@
 				84F7AF40EE160E9399A6E70B,
 				9DA7E4D07D13E1C22EC300DD,
 				4C4F5FE4925484ADCAF67251,
+				C41A311C6E5455EC37E3F6E1,
+				B817FFF4AFBB5BC8E9092937,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -1969,6 +1989,7 @@
 			files = (
 				B64F12EDECFFB039A653D964,
 				A3D6F47FC4C7F0CC3D2A17BA,
+				DD01334810BAE40F41102264,
 				8EBB696FC06AACA0AF147CC6,
 				1395A2EE890EB798E372FB43,
 				227D0D479276D028616A7B59,
