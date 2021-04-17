@@ -80,29 +80,33 @@ void idealBar::updateOperation() {
             + ((4 * MU * MU + c2) * (u[range + 1] + u[range - 1]))
             - (c2 * (uPrev[range + 1] + uPrev[range - 1]));
     }
+    
+    //Boundary Conditions
     //Free boundary condition - left boundary 1
-    /* uNext[0] = ((2 - 6*pow(MU,2) - c1 - 2*c2) * u[0])
-                 + ((c1 + 2*c2 -1) * uPrev[0])
-                 - (2*MU*MU * (u[2] - 2*u[1]));
+    uNext[1] = ((2 - 5*MU*MU - c1 - 2*c2) * u[1])
+                    + ((c1 + 2*c2 - 1) * uPrev[1])
+                    - (MU*MU * u[3])
+                    + ((4*MU*MU + c2) * (u[2] + u[0]))
+                    - (c2 * (uPrev[2] + uPrev[0]));
+    
+   //Free boundary condition - right boundary 1
+    uNext[N-1] = ((2 - 5*MU*MU - c1 - 2*c2) * u[N-1])
+                + ((c1 + 2*c2 - 1) * uPrev[N-1])
+                - (MU*MU * u[N-3])
+                + ((4*MU*MU + c2) * (u[N] + u[N-2]))
+                - (c2 * (uPrev[N] + uPrev[N-2]));
+    
+    //Free boundary condition - left boundary 2
+   /*  uNext[0] = ((2 - 6*MU*MU - c1 - 2*c2) * u[0])
+                 + ((c1 + 2*c2 - 1) * uPrev[0])
+                 - (2*MU*MU * (u[2] - 2*u[1]));*/
 
-     //Free boundary condition - left boundary 2
-     uNext[1] = ((2 - 5*pow(MU,2) - c1 - 2*c2) * u[1])
-                 + ((c1 + 2*c2 - 1) * uPrev[1])
-                 - (pow(MU,2) * u[3])
-                 + ((4*pow(MU,2) + c2) * (u[2] + u[0]))
-                 - (c2 * (uPrev[2] + uPrev[0]));
-
-     //Free boundary condition - right boundary 1
-     uNext[N] = ((2 - 6*pow(MU,2) - c1 - 2*c2) * u[N])
+    //Free boundary condition - right boundary 2
+     uNext[N] = ((2 - 6*MU*MU - c1 - 2*c2) * u[N])
                  + ((c1 + 2*c2 -1) * uPrev[N])
                  - (2*MU*MU * (u[N-2] - 2*u[N-1]));
 
-     //Free boundary condition - right boundary 1
-     uNext[N-1] = ((2 - 5*pow(MU,2) - c1 - 2*c2) * u[N-1])
-                 + ((c1 + 2*c2 - 1) * uPrev[N-11])
-                 - (pow(MU,2) * u[N-3])
-                 + ((4*pow(MU,2) + c2) * (u[N] + u[N-2]))
-                 - (c2 * (uPrev[N] + uPrev[N-2]));*/
+     
 }
 
 void idealBar::stateChange() {
