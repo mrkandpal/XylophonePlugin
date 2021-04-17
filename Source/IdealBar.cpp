@@ -97,16 +97,17 @@ void idealBar::updateOperation() {
                 - (c2 * (uPrev[N] + uPrev[N-2]));
     
     //Free boundary condition - left boundary 2
-   /*  uNext[0] = ((2 - 6*MU*MU - c1 - 2*c2) * u[0])
+     uNext[0] = ((2 - 6*MU*MU - c1 - 2*c2) * u[0])
                  + ((c1 + 2*c2 - 1) * uPrev[0])
-                 - (2*MU*MU * (u[2] - 2*u[1]));*/
+                 - (2*MU*MU * (u[2] - 2*u[1]));
 
     //Free boundary condition - right boundary 2
      uNext[N] = ((2 - 6*MU*MU - c1 - 2*c2) * u[N])
                  + ((c1 + 2*c2 -1) * uPrev[N])
                  - (2*MU*MU * (u[N-2] - 2*u[N-1]));
 
-     
+    uNext[2] = 0;
+    uNext[8] = 0;
 }
 
 void idealBar::stateChange() {
