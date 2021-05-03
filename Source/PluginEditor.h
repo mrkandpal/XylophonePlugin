@@ -26,12 +26,14 @@ public:
     void resized() override;
     
     void setRingLayout(double radius, float Xcentre, float Ycentre, int numButtons, int keyWidth, int keyHeight);
-    int activeButtons = 10;
+    int activeButtons = 12;
     float radius = 200;
     float centreX = 400;
     float centreY = 300;
     int keyWidth = 40;
     int keyHeight = 40;
+    
+    juce::String keyNames[12] = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
     
 private:
     juce::TextButton keys[50];

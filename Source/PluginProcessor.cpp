@@ -93,7 +93,9 @@ void XylophoneModelAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void XylophoneModelAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    bar = std::make_unique<idealBar>(0.293, 0.037, 0.019, sampleRate, (9.54 * pow(10, 9)), 796, 0.7, 0.005);
+  for(int i =0; i< 12; ++i){
+      bars.push_back(std::make_unique<idealBar>(octave4Lengths[i], 0.037, 0.019, sampleRate, (9.54 * pow(10, 9)), 796, 0.8, 0.05));
+    }
 }
 
 void XylophoneModelAudioProcessor::releaseResources()
@@ -141,9 +143,19 @@ void XylophoneModelAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     float output = 0.0;
 
     for (int i = 0; i < buffer.getNumSamples(); ++i) {
-        output = bar->getSchemeOutput(6);
-        bar->updateOperation();
-        bar->stateChange();
+        for(int j = 0; j<2; ++j){
+            if(bars[j]->isInitialized){
+                    output += (0.083)*(bars[j]->getSchemeOutput(bars[j]->excitationLocation));
+                    bars[j]->updateOperation();
+                    bars[j]->stateChange();
+            }
+        
+        }
+        /*output += (bars[1]->getSchemeOutput(bars[1]->excitationLocation));
+        bars[1]->updateOperation();
+        bars[1]->stateChange();*/
+        
+        
         output = limit(output);
         outputL[i] = output;
         outputR[i] = outputL[i];

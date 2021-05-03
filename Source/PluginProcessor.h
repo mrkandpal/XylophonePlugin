@@ -57,10 +57,12 @@ public:
     float limit(float input);
 
     inline void handleButtonPress(int keyIndex) {
-       // int a = 1;
-        bar->strike(4);
+        bars[keyIndex]->strike(5);
     }
-    std::unique_ptr<idealBar> bar;
+    
+    std::vector<std::unique_ptr<idealBar>> bars;
+    
+    double octave4Lengths[12] = {0.5270, 0.5120, 0.5061, 0.6810, 0.6720, 0.6520, 0.6460, 0.6270, 0.6191, 0.6030, 0.5690, 0.5356};
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (XylophoneModelAudioProcessor)

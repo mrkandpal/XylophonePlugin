@@ -15,7 +15,7 @@ XylophoneModelAudioProcessorEditor::XylophoneModelAudioProcessorEditor (Xylophon
 {
     for(int i = 0;i<activeButtons; ++i){
         addAndMakeVisible(keys[i]);
-        keys[i].setButtonText(juce::String(i+1));
+        keys[i].setButtonText(keyNames[i]);
         keys[i].onClick = [this,i]{
             audioProcessor.handleButtonPress(i);
         };

@@ -12,7 +12,7 @@
 #include "IdealBar.h"
 #include<math.h>
 
-idealBar::idealBar(double length, double width, double height, double Fs, double E, double density, double dampNonFreq, double dampFreq) {
+idealBar::idealBar(double length, double width, double height, double Fs, double E, double density, double dampNonFreq, double dampFreq){
     //Assign length, width and height of bar
     barLength = length;
     barWidth = width;
@@ -42,6 +42,11 @@ idealBar::idealBar(double length, double width, double height, double Fs, double
     N = floor(barLength / h);
     h = barLength / N;
 
+    //Calculate excitaion location and mode cancellation location based on N
+    cRatio1 = floor(0.2*N);
+    cRatio2 = floor(0.8*N);
+    excitationLocation = floor(0.5*N);
+    
     //Calculate update equation constants
     MU = (stiffnessCoefficient * k) / (h * h);
     c1 = 2 * sigmaZero * k;
@@ -49,6 +54,7 @@ idealBar::idealBar(double length, double width, double height, double Fs, double
 
     initializeUpdateVectors();
 }
+
 
 idealBar::~idealBar() {
 
@@ -61,13 +67,19 @@ void idealBar::initializeUpdateVectors() {
         uNext.push_back(0);
         uPrev.push_back(0);
     }
+    
+    isInitialized = true;
+    
+    /*for(int i = 0; i<3; ++i){
+        uStates.push_back(std::vector<double> (N+1, 0));
+    }*/
 }
 
 void idealBar::strike(int hannWidth) {
     //Initial Excitement - raised cosine
     for (int i = 0; i < hannWidth; i++) {
-        u[i + 2] = 0.5 * (1 - cos(2 * juce::double_Pi * ((double)(i) / (double)(hannWidth - 1))));
-        uPrev[i + 2] = 0.5 * (1 - cos(2 * juce::double_Pi * ((double)(i) / (double)(hannWidth - 1))));
+        u[excitationLocation - 2 + i] = 0.5 * (1 - cos(2 * juce::double_Pi * ((double)(i) / (double)(hannWidth - 1))));
+        uPrev[excitationLocation - 2 + i] = 0.5 * (1 - cos(2 * juce::double_Pi * ((double)(i) / (double)(hannWidth - 1))));
     }
 }
 
@@ -106,8 +118,8 @@ void idealBar::updateOperation() {
                  + ((c1 + 2*c2 -1) * uPrev[N])
                  - (2*MU*MU * (u[N-2] - 2*u[N-1]));
 
-    uNext[2] = 0;
-    uNext[8] = 0;
+    uNext[cRatio1] = 0;
+    uNext[cRatio2] = 0;
 }
 
 void idealBar::stateChange() {
@@ -127,9 +139,12 @@ void idealBar::stateChange() {
     uPrev = u;
     u = uNext;
     uNext = temp;
+    
+    
 }
 
 double idealBar::getSchemeOutput(int location) {
     //std::cout<<u[location]<<std::endl;
     return(u[location]);
+    //return 0;
 }
